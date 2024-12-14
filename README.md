@@ -1,16 +1,14 @@
 <p>
 <h1 align="center" style="font-size: 32px;"> <sub><sup><mark>(even)</mark></sup></sub> <sub><sup>(better)</sup></sub> SC Downloader</h1>
 </p>
+
 [This sc-downloader by daniillsv was used as a base](https://github.com/sc-workshop/better-sc-downloader)
 
 ### Currently supports:
 ### - Brawl Stars
 ### - Brawl Stars CN 
 ### - Clash Royale
-
-
-
-
+<br><br><br><br><br>
 ### Description
 File downloader for all  <sub><sup>(probably)</sup></sub> games from Supercell. It directly receives all the latest data from the server and downloads it.  
 [This sc-downloader by vorono4ka was used as a base](https://github.com/Vorono4ka/sc-downloader), some code from it is still here. But it has been greatly improved:
