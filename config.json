@@ -1,0 +1,13 @@
+{
+    "save_dump": false,
+    "auto_update": false,
+    "make_patches": true,
+    "make_detailed_patches": false,
+    "max_workers": 12,
+    "worker_max_items": 50,
+    "servers": {
+        "BrawlStarsPROD": "game.brawlstarsgame.com",
+        "BrawlStarsCN": "52.83.179.16",
+        "ClashRoyalePROD": "game.clashroyaleapp.com"
+    }
+}
