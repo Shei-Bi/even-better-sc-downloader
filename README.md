@@ -11,6 +11,14 @@ Python ≥ 3.9
 
 Do `pip install -r requirements.txt` then run `!run.bat`
 
+## Features
+
+Features added in this fork include:
+
+Quicker Version Detection
+
+Integrated Decompression
+
 ## Flags
 
 * `--hash`
