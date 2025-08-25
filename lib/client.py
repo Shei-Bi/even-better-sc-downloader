@@ -20,9 +20,9 @@ class Client:
         self.fingerprint_filepath = os.path.join(assets_path, "fingerprint.json")
 
         self.socket: socket = None
-        self.major = 0
+        self.major = 11
+        self.revision = 500
         self.build = 0
-        self.revision = 0
         self.dump = False
         self.assets_url = ""
         self.assets_url_2 = ""
