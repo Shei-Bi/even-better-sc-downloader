@@ -1,1 +1,2 @@
 Requests
+sc-compression==0.6.1
