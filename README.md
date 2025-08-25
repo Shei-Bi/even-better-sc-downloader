@@ -15,9 +15,8 @@ Do `pip install -r requirements.txt` then run `!run.bat`
 
 Features added in this fork include:
 
-Quicker Version Detection
-
-Integrated Decompression
+1. Quicker Version Detection
+2. Integrated Decompression
 
 ## Flags
 
