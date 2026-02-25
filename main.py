@@ -8,6 +8,8 @@ import os
 from shutil import move as fmove
 from shutil import copyfile as fcopy
 
+import json
+
 class ScDownloader:
     def __init__(self) -> None:
         self.config = Config("config.json")
@@ -15,11 +17,13 @@ class ScDownloader:
         # Servers
         print("Choose server to connect: ")
 
-        for i, descriptor in enumerate(self.config.servers):
-            print(f'{i}. "{descriptor.short_name}": {descriptor.server_address}"')
-
-        server_index = int(input("\nServer index: "))
-        self.active_server = self.config.servers[server_index]
+        if not self.config.asset_servers_override:
+            for i, descriptor in enumerate(self.config.servers):
+                print(f'{i}. "{descriptor.short_name}": {descriptor.server_address}"')
+            server_index = int(input("\nServer index: "))
+            self.active_server = self.config.servers[server_index]
+        else:
+            self.active_server = self.config.servers[0]
 
         self.assets_path = f"assets/{self.config.custom_hash or self.active_server.short_name}/"
         self.patches_path = f"patches/{self.active_server.short_name}"
@@ -302,6 +306,44 @@ class ScDownloader:
         downloads assets if it's the first connection, and checks for updates and downloads them if
         requested.
         """
+        if self.config.old_hash:
+            print("Updating...")
+            downloader = Downloader(
+                self.config.asset_servers_override,
+                self.client.content_hash,
+                self.client.assets_path,
+                self.config.max_workers,
+                self.config.worker_max_items,
+            )
+            self.config.asset_servers_override = self.config.asset_servers_override or self.get_latest_asset_servers()
+
+            latest_fingerprint = DownloaderWorker.download_file(
+                self.config.asset_servers_override,
+                self.config.custom_hash,
+                "fingerprint.json"
+            )
+
+            current_fingerprint = DownloaderWorker.download_file(
+                self.config.asset_servers_override,
+                self.config.old_hash,
+                "fingerprint.json"
+            )
+            
+            latest_chain = ItemChain.from_fingerprint(json.loads(latest_fingerprint.decode("utf8")))
+            current_chain = ItemChain.from_fingerprint(json.loads(current_fingerprint.decode("utf8")))
+            
+            new_files, changed_files, deleted_files = ScDownloader.make_patch_chain(current_chain, latest_chain)
+            
+            if (len(new_files.items) == 0):
+                print("There are no new files here")
+            else:
+                print("New Files: ")
+                downloader.download_folder(new_files)
+                
+            print("Downloading changed files")
+            Downloader.add_unlisted_items(changed_files)
+            downloader.download_folder(changed_files)
+            return
         
         major, _, _ = self.client.content_version
 

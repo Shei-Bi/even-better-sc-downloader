@@ -59,6 +59,13 @@ class Config:
             default=False,
         )
 
+        parser.add_argument(
+            "--old-hash",
+            type=str,
+            help="Specify old version hash",
+            default=None,
+        )
+
         args = parser.parse_args()
 
         self.custom_hash: str = "" or args.hash
@@ -66,6 +73,7 @@ class Config:
 
         self.strict_repair: bool = args.strict_repair_mode
         self.repair: bool = args.repair_mode or self.strict_repair
+        self.old_hash: str = "" or args.old_hash
         
         # Server specific variables
         self.status_code_size = 4 # int
